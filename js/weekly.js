@@ -75,6 +75,7 @@ Date.prototype.Format = function(fmt)
         }
     }
 }); 
+     var DEBUG=false;
      var myname= $.cookie("myname");
      // console.log(myname);
      if(myname){
@@ -199,7 +200,7 @@ Date.prototype.Format = function(fmt)
             $("#maskDiv").hide();
             $("#mynameInput").hide();
         });
-
+        var RESPONSE=null;
         $("#sendEmailBtn").click(function(evt){
                 evt=evt||window.event;
                 evt.preventDefault();
@@ -211,37 +212,40 @@ Date.prototype.Format = function(fmt)
                 sendContent.message.subject=$("#emailSubject").text();
                 var htmlStr=$("div.main").eq(1).find(".panel:first").remove().end().html();
                 // console.log(htmlStr);
+                 sendContent.message.html=htmlStr;
                 // return;
-                sendContent.message.html=htmlStr;
-                sendContent.message.to=[{
-                    email:"303301491@qq.com",
-                    name:"代总",
-                    type:"to"
-                }]; 
-                //  sendContent.message.to=[{
-                //     email:"jishujl@fh21.com",
-                //     name:"代总",
-                //     type:"to"
-                // }]; 
-                // console.log($("#copyto").find("span"));
-                var reciever={
-                    "email":"yanggc888@163.com",
-                    "name":"wtf",
-                    "type":"cc"
+                if(DEBUG){
+                    sendContent.message.to=[{
+                        email:"303301491@qq.com",
+                        name:"代总",
+                        type:"to"
+                    }]; 
+                    var reciever={
+                        "email":"yanggc888@163.com",
+                        "name":"wtf",
+                        "type":"cc"
                     };
-                sendContent.message.to.push(reciever);
-                // $.each($("#copyto").find("span"),function(idx,tag){
-                //      var reciever={
-                //     "email":"",
-                //     "name":"hello",
-                //     "type":"cc"
-                //     };
-                //     var rname=$(this).attr("data-email");
-                //     reciever.email=rname;
-                //     reciever.name=$(this).text();
+                    sendContent.message.to.push(reciever);
+                }else{
+                     sendContent.message.to=[{
+                        email:"jishujl@fh21.com",
+                        name:"代总",
+                        type:"to"
+                    }]; 
+                     $.each($("#copyto").find("span"),function(idx,tag){
+                         var reciever={
+                        "email":"",
+                        "name":"hello",
+                        "type":"cc"
+                        };
+                        var rname=$(this).attr("data-email");
+                        reciever.email=rname;
+                        reciever.name=$(this).text();
 
-                //     sendContent.message.to.push(reciever);
-                // });
+                        sendContent.message.to.push(reciever);
+                    });
+                }
+                // console.log($("#copyto").find("span"));
                 console.log(sendContent);
                 // return;
                     // return;
@@ -252,45 +256,48 @@ Date.prototype.Format = function(fmt)
                 $("#mynameInput").css("height","auto").fadeIn(500);
                 var purl="https://mandrillapp.com/api/1.0/messages/send.json";
                 $.post(purl,sendContent,function(response){
-                    console.log(response); // if you're into that sorta thing
-                               var resultList=[];
-                               $.each(response,function(idx,item){
-                                    var result={};
-                                    switch(item.status){
-                                        case "sent":
-                                        case 'queued':
-                                        case 'scheduled':
-                                            result.email=item.email;
-                                            result.status=1;
-                                            resultList.push(result);
-                                            break;
-                                        case "rejected":
-                                        case "invalid":
-                                            result.email=item.email;
-                                            result.status=0;
-                                            resultList.push(result);
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                               });
-                               var $ul=$("<ul/>");
-                               $.each(resultList,function(idx,item){
-                                    
-                                    var $li=$("<li/>").text(item.email);
-                                    if(item.status==1){
-                                        $li.append($("<span/>").addClass("ok").text("√"));
-                                    }else{
-                                        $li.append($("<span/>").addClass("failed").text("X"));
-                                    }
-                                    $ul.append($li);
-                               });
-                               $("#mynameInput .content").css("width","190px").find("ul,img").remove()
-                               .end().prepend($ul);
+                    RESPONSE=response;
+                    setTimeout(function(){
+                        console.log(RESPONSE); // if you're into that sorta thing
+                        var resultList=[];
+                        $.each(RESPONSE,function(idx,item){
+                            var result={};
+                            switch(item.status){
+                                case "sent":
+                                case 'queued':
+                                case 'scheduled':
+                                    result.email=item.email;
+                                    result.status=1;
+                                    resultList.push(result);
+                                    break;
+                                case "rejected":
+                                case "invalid":
+                                    result.email=item.email;
+                                    result.status=0;
+                                    resultList.push(result);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        });
+                        var $ul=$("<ul/>");
+                        $.each(resultList,function(idx,item){
+                            
+                            var $li=$("<li/>").text(item.email);
+                            if(item.status==1){
+                                $li.append($("<span/>").addClass("ok").text("√"));
+                            }else{
+                                $li.append($("<span/>").addClass("failed").text("X"));
+                            }
+                            $ul.append($li);
+                        });
+                        $("#mynameInput .content").css("width","250px").find("ul,img").remove()
+                        .end().prepend($ul);
 
-                               $("#mynameInput .header").text("少侠，发送结果，请过目！");
-                               
-                               $("#closeMask").show().css("display","block");
+                        $("#mynameInput .header").text("少侠，发送结果，请过目！");
+                       
+                        $("#closeMask").show().css("display","block");
+                    },3000);
                 });
     });
 });

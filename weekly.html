@@ -1,0 +1,458 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>周报生成器</title>
+    <style>
+    em{
+        font-style: normal;
+        color: #bb505d;
+        font-weight: 700;
+    }
+      .panel .button-large {
+           color: #F2F2F2;
+            display: block;
+            margin-right: 10px;
+            font-size: 18px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            width: 130px;
+            border-radius: 3px 3px 3px 3px;
+            background-color: #6c4c49;
+            text-decoration: none;
+            margin: 0 auto;
+        }
+	
+
+            span.profile{
+                margin: 0 5px 3px 2px; 
+            }
+            span.profile:hover{
+                background-color:#f15b6c;
+            }
+            #actionPopup{
+                display: none;
+                position: absolute;
+                background-color: #d3d7d4;
+                border: 1px solid #f2eada;
+                padding: 10px;
+
+            }
+         
+             #profilePopup{
+                display: none;
+                z-index: 99999;
+                position: absolute;
+                background-color: #78cdd1;
+                border: 1px solid #f2eada;
+                padding: 10px;
+
+            }
+            #profileImg{
+                float: left;
+            }
+            #profileImg img{
+                width: 80px;
+                height: 80px;
+            }
+            #profileIntro{
+                float: right;
+                margin-left: 10px;
+            }
+            #profileIntro p:last-child{
+                margin-top: 10px;
+            }
+            #maskDiv{
+                width: 100%;
+                background-color: black;
+                opacity: .75;
+                filter:alpha(opacity=75);
+                position: fixed;
+                top: 0;
+                left: 0;
+                z-index: 1000;
+                right: 0;
+                bottom: 0;
+                display: none;
+
+            }
+            #mynameInput{
+                width: 400px;
+                height: 140px;
+                background: #f2eada;
+                z-index: 1004;
+                position: fixed;
+                top: 30%;
+                left: 35%;
+                display: none;
+            }
+            #mynameInput .header{
+                color: white;
+                background: #973c3f;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                font-size: 17px;
+            }
+             #mynameInput .name{
+                float: left;
+                border:1px solid #E5E5E5;
+                width: 150px;
+                height: 40px;
+             }
+
+             #mynameInput .button-large {
+                color: #F2F2F2;
+                display: block;
+                font-size: 18px;
+                height: 40px;
+                line-height: 40px;
+                text-align: center;
+                border-radius: 3px 3px 3px 3px;
+                background-color: #6c4c49;
+                text-decoration: none;
+                float: right;
+                padding:0 10px;
+                cursor: pointer;
+            }
+            #sendEmailBtn{
+                display: none;
+                
+                cursor: pointer;
+            }
+    </style>
+</head>
+<body>
+    <!-- <div id="selectedText">ttttttt</div> -->
+    <div id="maskDiv"></div>
+    <div id="mynameInput">
+        <div class="header">
+            少侠，输入你的名字
+        </div>
+        <div style="margin:30px 40px;">
+            <input class="name">
+            <a id="mynameBtn" class="button-large">好了，少年</a>
+        </div>
+    </div>
+    <div id="profilePopup">
+        <div id="profileImg"><img src="img/test.jpg" /></div>
+        <div id="profileIntro">
+            <p class="email">习主席</p>
+            <p class="intro">他奶奶的，老虎苍蝇一起打！</p>
+
+        </div>
+    </div>
+      <div id="wrapper">
+        <div id="header">
+            <h1><span id="mynameSpan"></span>周报生成器
+            </h1>
+        </div>
+        <div class="main">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="h2"><span>主题：</span><span id="emailSubject"></span></h2>
+                </div>
+            </div>
+         <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        html, body {
+            height: 100%;
+            min-height: 1200px;
+            font-family: "微软雅黑", "宋体";
+        }
+        ul {
+            list-style-type: none;
+        }
+        .h2 {
+            font-weight: 300;
+            font-size: 24px;
+        }
+        a {
+            font-size: 12px;
+            color: #929292;
+            text-decoration: none;
+        }
+        a:link, a:visited {
+            color: #666;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        #wrapper {
+            width: 960px;
+            margin: 10px auto;
+        }
+
+        #header {
+            height: 50px;
+            padding: 5px;
+        }
+
+            #header h1 {
+                text-align: center;
+            }
+
+        .main {
+            margin-top: 5px;
+        }
+
+        .panel {
+            background: #F6F5F4;
+            border-radius: 4px;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 8px 0;
+        }
+
+        .panel-body {
+            padding: 10px 0;
+        }
+
+        .panel-body p {
+            margin-bottom: 5px;
+            line-height: 30px;
+        }
+
+        .panel-body table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 16px;
+            color: #545454;
+        }
+        .workList tr {
+            height: 45px;
+        }
+        .workList tr td {
+            border: 1px solid #E5E5E5;
+            background: #fff;
+        }
+        .workList tbody tr td.lazyRemove {
+            border: none;
+            width: 40px;
+            background: #F6F5F4;
+            }
+        .workList tr td input {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .workList tr td a {
+            padding-left: 5px;
+            display: none;
+        }
+        .workList thead tr td {
+            border: 1px solid #CFC6C6;
+            padding: 0px 5px;
+            font-size: 17px;
+            background: #E5E5E5;
+        }
+        .aboutThought{
+            border: 1px solid #E5E5E5;
+
+        }
+        .aboutThoughtDiv{
+            background: #f2eada;
+            font-size: 18px;
+            padding: 8px 5px;
+        }
+      
+    </style>
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="h2">本周主要工作</h2>
+                </div>
+                <div class="panel-body">
+                    <table class="workList">
+                        <thead>
+                            <tr>
+                                <td class="content">工作内容
+                                </td>
+                                <td class="progress">工作进度
+                                </td>
+                                <td class="status">备注
+                                </td>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input class="item"  />
+                                </td>
+                                <td>
+                                    <input class="item" />
+                                </td>
+                                <td>
+                                    <input class="item"  />
+                                </td>
+                                <td class="lazyRemove">
+                                    <a href="#" class="remove">
+                                        <img width="16px" src="img/delete.png" title="这一项工作不值一提，和谐掉...">
+                                    </a> 
+                                    <a href="#" class="add">
+                                        <img width="16px" src="img/add.png" title="开写有奖，再来一项！升职加薪，迎娶白富美，指日可待...">
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input class="item"  />
+                                </td>
+                                <td>
+                                    <input class="item" />
+                                </td>
+                                <td>
+                                    <input class="item"  />
+                                </td>
+                                <td class="lazyRemove">
+                                    <a href="#" class="remove">
+                                        <img width="16px" src="img/delete.png" title="这一项工作不值一提，和谐掉...">
+                                    </a> 
+                                    <a href="#" class="add">
+                                        <img width="16px" src="img/add.png" title="开写有奖，再来一项！升职加薪，迎娶白富美，指日可待...">
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="h2">下周主要工作</h2>
+                </div>
+                <div class="panel-body">
+                    <table class="workList">
+                        <thead>
+                            <tr>
+                                <td class="content">工作内容
+                                </td>
+                                <td class="progress">工作进度
+                                </td>
+                                <td class="status">备注
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                                <td>
+                                    <input class="item"  />
+                                </td>
+                                <td>
+                                    <input class="item" />
+                                </td>
+                                <td>
+                                    <input class="item"  />
+                                </td>
+                                <td class="lazyRemove">
+                                    <a href="#" class="remove">
+                                        <img width="16px" src="img/delete.png" title="这一项工作不值一提，和谐掉...">
+                                    </a> 
+                                    <a href="#" class="add">
+                                        <img width="16px" src="img/add.png" title="开写有奖，再来一项！升职加薪，迎娶白富美，指日可待...">
+                                    </a>
+                                </td>
+                            </tr>
+                             <tr>
+                                <td>
+                                    <input class="item"  />
+                                </td>
+                                <td>
+                                    <input class="item" />
+                                </td>
+                                <td>
+                                    <input class="item"  />
+                                </td>
+                                <td class="lazyRemove">
+                                    <a href="#" class="remove">
+                                        <img width="16px" src="img/delete.png" title="这一项工作不值一提，和谐掉...">
+                                    </a> 
+                                    <a href="#" class="add">
+                                        <img width="16px" src="img/add.png" title="开写有奖，再来一项！升职加薪，迎娶白富美，指日可待...">
+                                    </a>
+                                </td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    <h2 class="h2">工作感慨：<span class="lazyRemove" style="color:#d3d7d4;">(思考/建议/疑问/不满/...)</span></h2>
+                </div>
+                <div class="panel-body">
+                   <textarea name="aboutThought" id="" cols="108" rows="10" class="item aboutThought"></textarea>
+                </div>
+            </div>
+        </div>
+         <div id="imhere" class="panel">
+            <a id="generate" href="#imhere" class="button-large">生成周报</a>
+        </div>
+        <div id="sendList" class="panel">
+            <div class="panel-body">
+               <p>
+                            发送至<em>技术经理</em>： 
+                        </p>
+                         <p>
+                         	<span id="mailto" class="profile" data-email="jishujl@fh21.com" data-name="代启蒙" data-intro="不要在意这些细节" data-img="img/daiqimeng.jpg">代启蒙</span>
+                         
+                         </p>
+                        <p>
+                            抄送至<em>组内成员</em><em class="num"></em>：
+                        </p>
+                        <p id="copyto">
+                              <span class="profile" data-name="杨二小" data-email="303301491@qq.com" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg">杨二小</span>
+                            <span class="profile" data-name="丁配龙" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="77676182@qq.com">丁配龙</span>
+                            <span class="profile" data-name="程波" data-intro="你的代码没更新~~~" data-img="img/dingpeilong.jpg" data-email="734948717@qq.com">程波</span>
+                            <span class="profile" data-name="关雄波" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="18610482858@qq.com">关雄波</span>
+                            <span class="profile" data-name="么加明" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="996292623@qq.com">么加明</span>
+                            <span class="profile" data-name="王云杰" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="397097495@qq.com">王云杰</span>
+                            <span class="profile" data-name="张民杰" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="243636891@qq.com">张民杰</span>
+                            <span class="profile" data-name="段路忠" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="410985405@qq.com">段路忠</span>
+                            <span class="profile" data-name="吴俊伟" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="1399952803@qq.com">吴俊伟</span>
+                            <span class="profile" data-name="潘再魁" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="1224620039@qq.com">潘再魁</span>
+                            <span class="profile" data-name="杨惠超" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="309524687@qq.com">杨惠超</span>
+                            <span class="profile" data-name="张亮" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="1173788112@qq.com">张亮</span>
+                            <span class="profile" data-name="楚海雷" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="641726265@qq.com">楚海雷</span>
+                            <span class="profile" data-name="潘许超" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="1781929720@qq.com">潘许超</span>
+                            
+                            <span class="profile" data-name="侯三春" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="514835735@qq.com">侯三春</span><br>
+                            <span class="profile" data-name="金洪生" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="332478330@qq.com">金洪生</span>
+                            <span class="profile" data-name="肖涛" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="909557051@qq.com">肖涛</span>
+                            <span class="profile" data-name="臧文学" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="453266132@qq.com">臧文学</span>
+                            
+                            <span class="profile" data-name="李强" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="zeusion@qq.com">李强</span>
+                            <span class="profile" data-name="朱永志" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="dnzhu_master@126.com">朱永志</span>
+                            <span class="profile" data-name="邹莉" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="86514710@qq.com">邹莉</span>
+                            <span class="profile" data-name="刘世磊" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="313793110@qq.com">刘世磊</span>
+                            <span class="profile" data-name="李朋杰" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="386276251@qq.com">李朋杰</span>
+                            <span class="profile" data-name="赵瑶吉" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="zhaoyaoji2575@163.com">赵瑶吉</span>
+                             
+                            <span class="profile" data-name="龚义杰" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="523405048@qq.com">龚义杰</span>
+                            <span class="profile" data-name="陈峰卫" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="568865013@qq.com">陈峰卫</span>
+
+                        </p>
+            </div>
+        </div>
+       
+    </div>
+   <div class="panel"> 
+            <a id="sendEmailBtn"  class="button-large">发送周报</a>
+    </div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="js/weekly.js"></script>
+<!-- <script src="js/zeroClip.js"></script> -->
+</html>

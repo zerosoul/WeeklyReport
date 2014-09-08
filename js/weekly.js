@@ -36,49 +36,45 @@ Date.prototype.Format = function(fmt)
 //5.取一个cookie(name)值给myvar
 //var account= $.cookie('name');
 
-      cookie: function(name, value, options) {
-            if (typeof value != 'undefined') { // name and value given, set cookie
-                options = options || {};
-                if (value === null) {
-                    value = '';
-                    options.expires = -1;
-                }
-                var expires = '';
-                if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
-                    var date;
-                    if (typeof options.expires == 'number') {
-                        date = new Date();
-                        date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
-                    } else {
-                        date = options.expires;
-                    }
-                    expires = '; expires=' + date.toUTCString(); // use expires attribute, max-age is not supported by IE
-                }
-                var path = options.path ? '; path=' + options.path : '';
-                var domain = options.domain ? '; domain=' + options.domain : '';
-                var secure = options.secure ? '; secure' : '';
-                document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
-            } else { // only name given, get cookie
-                var cookieValue = null;
-                if (document.cookie && document.cookie != '') {
-                    var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = $.trim(cookies[i]);
-                        // Does this cookie string begin with the name we want?
-                        if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
-                        }
-                    }
-                }
-                return cookieValue;
+    cookie: function(name, value, options) {
+        if (typeof value != 'undefined') { // name and value given, set cookie
+            options = options || {};
+            if (value === null) {
+                value = '';
+                options.expires = -1;
             }
+            var expires = '';
+            if (options.expires && (typeof options.expires == 'number' || options.expires.toUTCString)) {
+                var date;
+                if (typeof options.expires == 'number') {
+                    date = new Date();
+                    date.setTime(date.getTime() + (options.expires * 24 * 60 * 60 * 1000));
+                } else {
+                    date = options.expires;
+                }
+                expires = '; expires=' + date.toUTCString(); // use expires attribute, max-age is not supported by IE
+            }
+            var path = options.path ? '; path=' + options.path : '';
+            var domain = options.domain ? '; domain=' + options.domain : '';
+            var secure = options.secure ? '; secure' : '';
+            document.cookie = [name, '=', encodeURIComponent(value), expires, path, domain, secure].join('');
+        } else { // only name given, get cookie
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = $.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
         }
-     
-    }); 
-
-   var mailto=$("#mailto").text();
-	 var copyto=$("#copyto").text();
+    }
+}); 
      var myname= $.cookie("myname");
      // console.log(myname);
      if(myname){
@@ -89,17 +85,19 @@ Date.prototype.Format = function(fmt)
         $("#mynameInput").fadeIn(500);
      }
     $(function(){
-        $("#mynameBtn").click(function(){
-            var name=$(this).prev("input").val();
-            if(name==""){
-                alert("少侠，报上你的大名...");
-                return;
-            }
-            $.cookie("myname",name);
-            $("#maskDiv").hide();
-            $("#mynameInput").hide();
-            $("#mynameSpan").text(name+"@");
-             $("#emailSubject").text("周报-"+name+"-"+new Date().Format("yyyy年MM月dd日"));
+        $("#mynameInput .name").keypress(function(evt){
+            if(evt.which==13){    
+                var name=$(this).val();
+                if(name==""){
+                    alert("少侠，报上你的大名...");
+                    return;
+                }
+                $.cookie("myname",name);
+                $("#maskDiv").hide();
+                $("#mynameInput").hide();
+                $("#mynameSpan").text(name+"@");
+                $("#emailSubject").text("周报-"+name+"-"+new Date().Format("yyyy年MM月dd日"));
+             }
         });
         var count= $("#copyto").find("span.profile").length;
         // console.log(count);
@@ -194,7 +192,17 @@ Date.prototype.Format = function(fmt)
                 $("#sendEmailBtn").show().css("display","block");
             }
          });
-        $("#sendEmailBtn").click(function(){
+
+        $("#closeMask").click(function(evt){
+            evt=evt||window.event;
+            evt.preventDefault();
+            $("#maskDiv").hide();
+            $("#mynameInput").hide();
+        });
+
+        $("#sendEmailBtn").click(function(evt){
+                evt=evt||window.event;
+                evt.preventDefault();
                 var sendContent={};
                 sendContent.key="EqW8mnYeVIYrfzwQ45hLrg";
                 sendContent.message={};
@@ -237,12 +245,52 @@ Date.prototype.Format = function(fmt)
                 console.log(sendContent);
                 // return;
                     // return;
-                $.ajax({
-                  type: "POST",
-                  url: "https://mandrillapp.com/api/1.0/messages/send.json",
-                  data:sendContent
-                    }).done(function(response) {
-                   console.log(response); // if you're into that sorta thing
+                $("#mynameInput input").hide();
+                $("#mynameInput .header").text("少侠，正在发送，稍安勿躁...");
+                $("#mynameInput .content").append($("<img/>").attr("src","img/waiting.jpg"));
+                $("#maskDiv").show();
+                $("#mynameInput").css("height","auto").fadeIn(500);
+                var purl="https://mandrillapp.com/api/1.0/messages/send.json";
+                $.post(purl,sendContent,function(response){
+                    console.log(response); // if you're into that sorta thing
+                               var resultList=[];
+                               $.each(response,function(idx,item){
+                                    var result={};
+                                    switch(item.status){
+                                        case "sent":
+                                        case 'queued':
+                                        case 'scheduled':
+                                            result.email=item.email;
+                                            result.status=1;
+                                            resultList.push(result);
+                                            break;
+                                        case "rejected":
+                                        case "invalid":
+                                            result.email=item.email;
+                                            result.status=0;
+                                            resultList.push(result);
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                               });
+                               var $ul=$("<ul/>");
+                               $.each(resultList,function(idx,item){
+                                    
+                                    var $li=$("<li/>").text(item.email);
+                                    if(item.status==1){
+                                        $li.append($("<span/>").addClass("ok").text("√"));
+                                    }else{
+                                        $li.append($("<span/>").addClass("failed").text("X"));
+                                    }
+                                    $ul.append($li);
+                               });
+                               $("#mynameInput .content").css("width","190px").find("ul,img").remove()
+                               .end().prepend($ul);
+
+                               $("#mynameInput .header").text("少侠，发送结果，请过目！");
+                               
+                               $("#closeMask").show().css("display","block");
                 });
     });
 });

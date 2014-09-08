@@ -96,15 +96,14 @@
                 font-size: 17px;
             }
              #mynameInput .name{
-                float: left;
                 border:1px solid #E5E5E5;
-                width: 150px;
+                width: 100%;
                 height: 40px;
+                font-size: 20px;
              }
 
              #mynameInput .button-large {
                 color: #F2F2F2;
-                display: block;
                 font-size: 18px;
                 height: 40px;
                 line-height: 40px;
@@ -112,9 +111,21 @@
                 border-radius: 3px 3px 3px 3px;
                 background-color: #6c4c49;
                 text-decoration: none;
-                float: right;
                 padding:0 10px;
                 cursor: pointer;
+                display: none;
+                margin-top: 25px;
+            }
+             #mynameInput .content span{
+                padding-left: 5px;
+                font-size: 16px;
+                float: right;
+             }
+             #mynameInput .ok {
+                color: green;
+            }
+             #mynameInput .failed {
+                color: red;
             }
             #sendEmailBtn{
                 display: none;
@@ -130,11 +141,19 @@
         <div class="header">
             少侠，输入你的名字
         </div>
-        <div style="margin:30px 40px;">
+        <div class="content" style="margin:26px auto;width:130px;">
             <input class="name">
-            <a id="mynameBtn" class="button-large">好了，少年</a>
+            <a id="closeMask" class="button-large">好的，少年</a>
         </div>
     </div>
+    <!-- <div id="mynameInput">
+        <div class="header">
+            少侠，发送结果，请过目！
+        </div>
+        <div class="content" style="margin:26px auto;width:180px;">
+           <img src="img/waiting.jpg" alt="">
+        </div>
+    </div> -->
     <div id="profilePopup">
         <div id="profileImg"><img src="img/test.jpg" /></div>
         <div id="profileIntro">
@@ -406,7 +425,7 @@
                             发送至<em>技术经理</em>： 
                         </p>
                          <p>
-                         	<span id="mailto" class="profile" data-email="jishujl@fh21.com" data-name="代启蒙" data-intro="不要在意这些细节" data-img="img/daiqimeng.jpg">代启蒙</span>
+                         	<span class="profile" data-email="jishujl@fh21.com" data-name="代启蒙" data-intro="不要在意这些细节" data-img="img/daiqimeng.jpg">代启蒙</span>
                          
                          </p>
                         <p>

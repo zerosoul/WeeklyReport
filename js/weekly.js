@@ -83,7 +83,7 @@ Date.prototype.Format = function(fmt)
      // console.log(myname);
      if(myname){
         $("#mynameSpan").text(myname+"@");
-        $("#emailSubject").text("周报-"+myname+'-'+new Date().Format("yyyy-MM-dd"));
+        $("#emailSubject").text("周报-"+myname+'-'+new Date().Format("yyyy年MM月dd日"));
      }else{
         $("#maskDiv").show();
         $("#mynameInput").fadeIn(500);

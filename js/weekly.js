@@ -75,7 +75,7 @@ Date.prototype.Format = function(fmt)
         }
     }
 }); 
-     var DEBUG=false;
+     var DEBUG=true;
      var myname= $.cookie("myname");
      // console.log(myname);
      if(myname){
@@ -90,7 +90,7 @@ Date.prototype.Format = function(fmt)
             if(evt.which==13){    
                 var name=$(this).val();
                 if(name==""){
-                    alert("少侠，报上你的大名...");
+                    alert("客官，报上你的大名...");
                     return;
                 }
                 $.cookie("myname",name);
@@ -132,7 +132,7 @@ Date.prototype.Format = function(fmt)
             var currCount=currEle.parents("tbody").find("tr").length;
             if(currEle.hasClass("remove")){
                 if(currCount===1){
-                    alert("少侠，不要这样...");
+                    alert("客官，不要这样...");
                     return;
                 }
                 currEle.parents("tr").fadeOut("300",function(){
@@ -204,7 +204,23 @@ Date.prototype.Format = function(fmt)
         $("#sendEmailBtn").click(function(evt){
                 evt=evt||window.event;
                 evt.preventDefault();
-                var sendContent={};
+                $("#confirmAgain").show();
+                
+    });
+        $("#confirmAgain a.yes").click(function (evt){
+            evt=evt||window.event;
+                evt.preventDefault();
+                $("#confirmAgain").hide();
+                sendEmail();
+        });
+
+        $("#confirmAgain a.no").click(function (evt){
+            evt=evt||window.event;
+                evt.preventDefault();
+                $("#confirmAgain").hide();
+        });
+        function sendEmail(){
+            var sendContent={};
                 sendContent.key="EqW8mnYeVIYrfzwQ45hLrg";
                 sendContent.message={};
                 sendContent.message.from_email='303301491@qq.com';
@@ -247,10 +263,9 @@ Date.prototype.Format = function(fmt)
                 }
                 // console.log($("#copyto").find("span"));
                 console.log(sendContent);
-                // return;
-                    // return;
+                
                 $("#mynameInput input").hide();
-                $("#mynameInput .header").text("少侠，正在发送，稍安勿躁...");
+                $("#mynameInput .header").text("客官，正在发送，稍安勿躁...");
                 $("#mynameInput .content").append($("<img/>").attr("src","img/waiting.jpg"));
                 $("#maskDiv").show();
                 $("#mynameInput").css("height","auto").fadeIn(500);
@@ -294,10 +309,10 @@ Date.prototype.Format = function(fmt)
                         $("#mynameInput .content").css("width","250px").find("ul,img").remove()
                         .end().prepend($ul);
 
-                        $("#mynameInput .header").text("少侠，发送结果，请过目！");
+                        $("#mynameInput .header").text("客官，发送结果，请过目！");
                        
                         $("#closeMask").show().css("display","block");
                     },3000);
                 });
-    });
+        }
 });

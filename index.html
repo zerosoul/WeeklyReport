@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -23,8 +23,6 @@
             text-decoration: none;
             margin: 0 auto;
         }
-	
-
             span.profile{
                 margin: 0 5px 3px 2px; 
             }
@@ -77,7 +75,7 @@
                 display: none;
 
             }
-            #mynameInput{
+            .commonPopup{
                 width: 400px;
                 height: 140px;
                 background: #f2eada;
@@ -87,7 +85,7 @@
                 left: 35%;
                 display: none;
             }
-            #mynameInput .header{
+            .commonPopup .header{
                 color: white;
                 background: #973c3f;
                 height: 40px;
@@ -95,14 +93,14 @@
                 text-align: center;
                 font-size: 17px;
             }
-             #mynameInput .name{
+             .commonPopup .name{
                 border:1px solid #E5E5E5;
                 width: 100%;
                 height: 40px;
                 font-size: 20px;
              }
 
-             #mynameInput .button-large {
+             .commonPopup .button-large {
                 color: #F2F2F2;
                 font-size: 18px;
                 height: 40px;
@@ -116,19 +114,19 @@
                 display: none;
                 margin-top: 25px;
             }
-             #mynameInput .content span{
+             .commonPopup .content span{
                 padding-left: 5px;
                 font-size: 16px;
                 float: right;
              }
-             #mynameInput .content ul{
+             .commonPopup .content ul{
                height: 260px;
                overflow-y: scroll;
              }
-             #mynameInput .ok {
+             .commonPopup .ok {
                 color: green;
             }
-             #mynameInput .failed {
+             .commonPopup .failed {
                 color: red;
             }
             #sendEmailBtn{
@@ -141,24 +139,26 @@
 <body>
     <!-- <div id="selectedText">ttttttt</div> -->
     <div id="maskDiv"></div>
-    <div id="mynameInput">
+    <div id="mynameInput" class="commonPopup">
         <div class="header">
-            少侠，输入你的名字
+            客观，请输入您的名字，完事儿按回车：
         </div>
         <div class="content" style="margin:26px auto;width:130px;">
             <input class="name">
-            <a id="closeMask" class="button-large">好的，少年</a>
+            <a id="closeMask" class="button-large">好的，小二</a>
         </div>
     </div>
-    <!-- <div id="mynameInput">
+    <div id="confirmAgain" class="commonPopup" style="display:none;height:230px;">
         <div class="header">
-            少侠，发送结果，请过目！
+            客官，您确定发送吗？
         </div>
-        <div class="content" style="margin:26px auto;width:180px;">
-           <img src="img/waiting.jpg" alt="">
+        <div class="content" style="margin:20px auto;width:130px;text-align:center;">
+            
+            <a class="button-large yes" style="display:inline-block;">是的，小二</a>
+            <a class="button-large no" style="display:inline-block;">对不起，按错了</a>
         </div>
-    </div> -->
-    <div id="profilePopup">
+    </div>
+     <div id="profilePopup">
         <div id="profileImg"><img src="img/test.jpg" /></div>
         <div id="profileIntro">
             <p class="email">习主席</p>
@@ -439,36 +439,7 @@
                         </p>
                         <p id="copyto">
                               <span class="profile" data-name="飞华技术邮件组" data-email="fh21_tech@groups.163.com" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg">邮件组</span>
-                           <!--  <span class="profile" data-name="丁配龙" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="77676182@qq.com">丁配龙</span>
-                            <span class="profile" data-name="程波" data-intro="你的代码没更新~~~" data-img="img/dingpeilong.jpg" data-email="734948717@qq.com">程波</span>
-                            <span class="profile" data-name="关雄波" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="18610482858@qq.com">关雄波</span>
-                            <span class="profile" data-name="么加明" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="996292623@qq.com">么加明</span>
-                            <span class="profile" data-name="王云杰" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="397097495@qq.com">王云杰</span>
-                            <span class="profile" data-name="张民杰" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="243636891@qq.com">张民杰</span>
-                            <span class="profile" data-name="段路忠" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="410985405@qq.com">段路忠</span>
-                            <span class="profile" data-name="吴俊伟" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="1399952803@qq.com">吴俊伟</span>
-                            <span class="profile" data-name="潘再魁" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="1224620039@qq.com">潘再魁</span>
-                            <span class="profile" data-name="杨惠超" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="309524687@qq.com">杨惠超</span>
-                            <span class="profile" data-name="张亮" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="1173788112@qq.com">张亮</span>
-                            <span class="profile" data-name="楚海雷" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="641726265@qq.com">楚海雷</span>
-                            <span class="profile" data-name="潘许超" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="1781929720@qq.com">潘许超</span>
-                            
-                            <span class="profile" data-name="侯三春" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="514835735@qq.com">侯三春</span><br>
-                            <span class="profile" data-name="金洪生" data-intro="在我这儿是好的~~~" data-img="img/dingpeilong.jpg" data-email="332478330@qq.com">金洪生</span>
-                            <span class="profile" data-name="肖涛" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="909557051@qq.com">肖涛</span>
-                            <span class="profile" data-name="臧文学" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="453266132@qq.com">臧文学</span>
-                            
-                            <span class="profile" data-name="李强" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="zeusion@qq.com">李强</span>
-                            <span class="profile" data-name="朱永志" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="dnzhu_master@126.com">朱永志</span>
-                            <span class="profile" data-name="邹莉" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="86514710@qq.com">邹莉</span>
-                            <span class="profile" data-name="刘世磊" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="313793110@qq.com">刘世磊</span>
-                            <span class="profile" data-name="李朋杰" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="386276251@qq.com">李朋杰</span>
-                            <span class="profile" data-name="赵瑶吉" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="zhaoyaoji2575@163.com">赵瑶吉</span>
-                             
-                            <span class="profile" data-name="龚义杰" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="523405048@qq.com">龚义杰</span>
-                            <span class="profile" data-name="陈峰卫" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="568865013@qq.com">陈峰卫</span>
-                            <span class="profile" data-name="王杰民" data-intro="我读书少，你不要骗我" data-img="img/yanggc.jpg" data-email="278667010@qq.com">王杰民</span> -->
-
+                          
                         </p>
             </div>
         </div>

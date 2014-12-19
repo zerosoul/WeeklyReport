@@ -75,7 +75,7 @@ Date.prototype.Format = function(fmt)
         }
     }
 }); 
-     var DEBUG=true;
+     var DEBUG=false;
      var myname= $.cookie("myname");
      // console.log(myname);
      if(myname){
@@ -243,8 +243,9 @@ Date.prototype.Format = function(fmt)
                     };
                     sendContent.message.to.push(reciever);
                 }else{
+                	var sendToBoss=$("#sendToBoss").attr("data-email");
                      sendContent.message.to=[{
-                        email:"jishujl@fh21.com",
+                        email:sendToBoss,
                         name:"代总",
                         type:"to"
                     }]; 

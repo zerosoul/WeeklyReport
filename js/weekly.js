@@ -232,7 +232,7 @@ Date.prototype.Format = function(fmt)
                 // return;
                 if(DEBUG){
                     sendContent.message.to=[{
-                        email:"303301491@qq.com",
+                        email:"yangguochun@fh21.com",
                         name:"代总",
                         type:"to"
                     }]; 
